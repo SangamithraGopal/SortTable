@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, lightyellow, lightbrown);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(to right, orange, purple);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .hidden {
+            display: none;
+        }
+        #sortableTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        #sortableTable th, #sortableTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        #sortableTable th {
+            cursor: pointer;
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="loginContainer">
+        <h2>Login</h2>
+        <div class="input-group">
+            <label for="loginUsername">Username</label>
+            <input type="text" id="loginUsername" required>
+        </div>
+        <div class="input-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" required>
+        </div>
+        <div class="input-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required>
+        </div>
+        <button class="btn" onclick="showSortingPage()">Submit</button>
+        <button class="btn" onclick="showSignupPage()">Sign Up</button>
+    </div>
+
+    <div class="container hidden" id="signupContainer">
+        <h2>Sign Up</h2>
+        <div class="input-group">
+            <label for="signupFirstName">First Name</label>
+            <input type="text" id="signupFirstName" required>
+        </div>
+        <div class="input-group">
+            <label for="signupLastName">Last Name</label>
+            <input type="text" id="signupLastName" required>
+        </div>
+        <div class="input-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" required>
+        </div>
+        <div class="input-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" required>
+        </div>
+        <button class="btn" onclick="showSortingPage()">Submit</button>
+        <button class="btn" onclick="showLoginPage()">Reset</button>
+    </div>
+
+    <div class="container hidden" id="sortingContainer">
+        <h2>Sorting Table</h2>
+        <div class="input-group">
+            <input type="file" id="fileInput" accept=".csv, .xlsx">
+            <button class="btn" onclick="importFile()">Import</button>
+        </div>
+        <div class="input-group">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button class="btn" onclick="searchTable()">Search</button>
+        </div>
+        <table id="sortableTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Column 1</th>
+                    <th onclick="sortTable(1)">Column 2</th>
+                    <th onclick="sortTable(2)">Column 3</th>
+                    <th onclick="sortTable(3)">Column 4</th>
+                    <th onclick="sortTable(4)">Column 5</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Row 1 Col 1</td><td>Row 1 Col 2</td><td>Row 1 Col 3</td><td>Row 1 Col 4</td><td>Row 1 Col 5</td></tr>
+                <tr><td>Row 2 Col 1</td><td>Row 2 Col 2</td><td>Row 2 Col 3</td><td>Row 2 Col 4</td><td>Row 2 Col 5</td></tr>
+                <tr><td>Row 3 Col 1</td><td>Row 3 Col 2</td><td>Row 3 Col 3</td><td>Row 3 Col 4</td><td>Row 3 Col 5</td></tr>
+                <tr><td>Row 4 Col 1</td><td>Row 4 Col 2</td><td>Row 4 Col 3</td><td>Row 4 Col 4</td><td>Row 4 Col 5</td></tr>
+                <tr><td>Row 5 Col 1</td><td>Row 5 Col 2</td><td>Row 5 Col 3</td><td>Row 5 Col 4</td><td>Row 5 Col 5</td></tr>
+                <tr><td>Row 6 Col 1</td><td>Row 6 Col 2</td><td>Row 6 Col 3</td><td>Row 6 Col 4</td><td>Row 6 Col 5</td></tr>
+                <tr><td>Row 7 Col 1</td><td>Row 7 Col 2</td><td>Row 7 Col 3</td><td>Row 7 Col 4</td><td>Row 7 Col 5</td></tr>
+                <tr><td>Row 8 Col 1</td><td>Row 8 Col 2</td><td>Row 8 Col 3</td><td>Row 8 Col 4</td><td>Row 8 Col 5</td></tr>
+                <tr><td>Row 9 Col 1</td><td>Row 9 Col 2</td><td>Row 9 Col 3</td><td>Row 9 Col 4</td><td>Row 9 Col 5</td></tr>
+                <tr><td>Row 10 Col 1</td><td>Row 10 Col 2</td><td>Row 10 Col 3</td><td>Row 10 Col 4</td><td>Row 10 Col 5</td></tr>
+            </tbody>
+        </table>
+        <button class="btn" onclick="generatePDF()">Generate PDF</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script>
+        function showSignupPage() {
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('signupContainer').classList.remove('hidden');
+        }
+
+        function showLoginPage() {
+            document.getElementById('signupContainer').classList.add('hidden');
+            document.getElementById('loginContainer').classList.remove('hidden');
+        }
+
+        function showSortingPage() {
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('signupContainer').classList.add('hidden');
+            document.getElementById('sortingContainer').classList.remove('hidden');
+        }
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("sortableTable");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("sortableTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        function generatePDF() {
+            var docDefinition = {
+                content: [
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', '*', '*', '*', '*'],
+                            body: [
+                                ['Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'],
+                                ['Row 1 Col 1', 'Row 1 Col 2', 'Row 1 Col 3', 'Row 1 Col 4', 'Row 1 Col 5'],
+                                ['Row 2 Col 1', 'Row 2 Col 2', 'Row 2 Col 3', 'Row 2 Col 4', 'Row 2 Col 5'],
+                                ['Row 3 Col 1', 'Row 3 Col 2', 'Row 3 Col 3', 'Row 3 Col 4', 'Row 3 Col 5'],
+                                ['Row 4 Col 1', 'Row 4 Col 2', 'Row 4 Col 3', 'Row 4 Col 4', 'Row 4 Col 5'],
+                                ['Row 5 Col 1', 'Row 5 Col 2', 'Row 5 Col 3', 'Row 5 Col 4', 'Row 5 Col 5'],
+                                ['Row 6 Col 1', 'Row 6 Col 2', 'Row 6 Col 3', 'Row 6 Col 4', 'Row 6 Col 5'],
+                                ['Row 7 Col 1', 'Row 7 Col 2', 'Row 7 Col 3', 'Row 7 Col 4', 'Row 7 Col 5'],
+                                ['Row 8 Col 1', 'Row 8 Col 2', 'Row 8 Col 3', 'Row 8 Col 4', 'Row 8 Col 5'],
+                                ['Row 9 Col 1', 'Row 9 Col 2', 'Row 9 Col 3', 'Row 9 Col 4', 'Row 9 Col 5'],
+                                ['Row 10 Col 1', 'Row 10 Col 2', 'Row 10 Col 3', 'Row 10 Col 4', 'Row 10 Col 5'],
+                            ]
+                        }
+                    }
+                ]
+            };
+            pdfMake.createPdf(docDefinition).download('sorted_table.pdf');
+        }
+
+        function importFile() {
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var data = new Uint8Array(e.target.result);
+                var workbook = XLSX.read(data, { type: 'array' });
+                var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                var csv = XLSX.utils.sheet_to_csv(firstSheet);
+                loadCSVIntoTable(csv);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function loadCSVIntoTable(csv) {
+            var rows = csv.split("\n");
+            var table = document.getElementById('sortableTable').getElementsByTagName('tbody')[0];
+            table.innerHTML = "";
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].split(",");
+                if (cells.length > 1) {
+                    var row = table.insertRow(-1);
+                    for (var j = 0; j < cells.length; j++) {
+                        var cell = row.insertCell(-1);
+                        cell.textContent = cells[j];
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
